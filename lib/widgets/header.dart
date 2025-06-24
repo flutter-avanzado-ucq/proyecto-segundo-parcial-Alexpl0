@@ -10,7 +10,7 @@ class Header extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF7F00FF), Color(0xFFE100FF)],
+          colors: [Color(0xFF2196F3), Color(0xFF64B5F6)], // Gradiente azul.
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -20,14 +20,14 @@ class Header extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=47'),
+            backgroundImage: NetworkImage('https://i.pinimg.com/474x/8a/b3/2b/8ab32bb74689d0cdc98b14fc2460a73c.jpg'),
           ),
           SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hola, Liliana 👋',
+                'Hola, Alex 👋',
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               Text(

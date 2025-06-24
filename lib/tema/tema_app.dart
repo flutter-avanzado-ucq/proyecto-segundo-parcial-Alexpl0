@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   static final theme = ThemeData(
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    scaffoldBackgroundColor: const Color(0xFFF3F4F6),
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    scaffoldBackgroundColor: const Color(0xFFE3F2FD), // Fondo azul claro.
     textTheme: GoogleFonts.poppinsTextTheme(),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.blueAccent, // Botones con azul.
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),

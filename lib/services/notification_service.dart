@@ -69,7 +69,7 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime scheduledDate,
-    required int notificationId,
+    required int notificationId, // ✅ Identificador único de la notificación para programarla y cancelarla posteriormente.
     String? payload,
   }) async {
     const androidDetails = AndroidNotificationDetails(
@@ -83,7 +83,7 @@ class NotificationService {
     const details = NotificationDetails(android: androidDetails);
 
     await _notificationsPlugin.zonedSchedule(
-      notificationId,
+      notificationId, // ✅ Uso del identificador para programar la notificación.
       title,
       body,
       tz.TZDateTime.from(scheduledDate, tz.local),
@@ -94,6 +94,6 @@ class NotificationService {
   }
 
   static Future<void> cancelNotification(int id) async {
-    await _notificationsPlugin.cancel(id);
+    await _notificationsPlugin.cancel(id); // ✅ Cancelación de la notificación usando su identificador único.
   }
 }

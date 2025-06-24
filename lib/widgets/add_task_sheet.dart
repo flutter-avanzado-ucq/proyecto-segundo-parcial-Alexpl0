@@ -37,26 +37,25 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
           _selectedDate!.year,
           _selectedDate!.month,
           _selectedDate!.day,
-          _selectedTime!.hour,
+          _selectedTime!.hour, // ✅ Manejo de la hora (dueTime) al programar la notificación.
           _selectedTime!.minute,
         );
 
-        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
+        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000); // ✅ Generación del identificador único de la notificación.
 
         await NotificationService.scheduleNotification(
           title: 'Recordatorio de tarea',
           body: 'No olvides: $text',
           scheduledDate: scheduledDateTime,
-          payload: 'Tarea programada: $text para $scheduledDateTime',
-          notificationId: notificationId,
+          notificationId: notificationId, // ✅ Uso del identificador para programar la notificación.
         );
       }
 
       Provider.of<TaskProvider>(context, listen: false).addTask(
         text,
         dueDate: _selectedDate,
-        dueTime: _selectedTime,
-        notificationId: notificationId,
+        dueTime: _selectedTime, // ✅ Se guarda la hora de vencimiento de la tarea.
+        notificationId: notificationId, // ✅ Se guarda el identificador de la notificación asociada.
       );
 
       Navigator.pop(context);

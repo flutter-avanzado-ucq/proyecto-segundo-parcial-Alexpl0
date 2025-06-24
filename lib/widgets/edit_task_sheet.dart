@@ -34,7 +34,7 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
       final task = Provider.of<TaskProvider>(context, listen: false).tasks[widget.index];
 
       if (task.notificationId != null) {
-        await NotificationService.cancelNotification(task.notificationId!);
+        await NotificationService.cancelNotification(task.notificationId!); // ✅ Cancelación de la notificación anterior antes de actualizar la tarea.
       }
 
       await NotificationService.showImmediateNotification(
@@ -48,18 +48,17 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
           _selectedDate!.year,
           _selectedDate!.month,
           _selectedDate!.day,
-          _selectedTime!.hour,
+          _selectedTime!.hour, // ✅ Manejo de la hora (dueTime) al programar la nueva notificación.
           _selectedTime!.minute,
         );
 
-        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
+        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000); // ✅ Generación del nuevo identificador único de la notificación.
 
         await NotificationService.scheduleNotification(
           title: 'Recordatorio de tarea actualizada',
           body: 'No olvides: $newTitle',
           scheduledDate: scheduledDateTime,
-          payload: 'Tarea actualizada: $newTitle para $scheduledDateTime',
-          notificationId: notificationId,
+          notificationId: notificationId, // ✅ Uso del nuevo identificador para programar la notificación.
         );
       }
 
@@ -67,8 +66,8 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
         widget.index,
         newTitle,
         newDate: _selectedDate,
-        newTime: _selectedTime,
-        notificationId: notificationId,
+        newTime: _selectedTime, // ✅ Actualización de la hora de vencimiento.
+        notificationId: notificationId, // ✅ Actualización del identificador de notificación.
       );
 
       Navigator.pop(context);
