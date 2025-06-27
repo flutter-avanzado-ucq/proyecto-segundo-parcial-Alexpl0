@@ -16,6 +16,7 @@ class NotificationService {
       iOS: iosSettings,
     );
 
+    // 26/06/2025: Inicialización de zonas horarias (necesario para notificaciones programadas)
     tz.initializeTimeZones();
 
     await _notificationsPlugin.initialize(
@@ -25,8 +26,9 @@ class NotificationService {
   }
 
   static void _onNotificationResponse(NotificationResponse response) {
+    // 26/06/2025: Cambio de mensaje de debug para igualar archivo nuevo
     if (response.payload != null) {
-      print('🔔 Payload: ${response.payload}');
+      print('Payload: ${response.payload}');
     }
   }
 
@@ -69,7 +71,7 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime scheduledDate,
-    required int notificationId, // ✅ Identificador único de la notificación para programarla y cancelarla posteriormente.
+    required int notificationId,
     String? payload,
   }) async {
     const androidDetails = AndroidNotificationDetails(
@@ -83,7 +85,7 @@ class NotificationService {
     const details = NotificationDetails(android: androidDetails);
 
     await _notificationsPlugin.zonedSchedule(
-      notificationId, // ✅ Uso del identificador para programar la notificación.
+      notificationId,
       title,
       body,
       tz.TZDateTime.from(scheduledDate, tz.local),

@@ -23,18 +23,24 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
     final task = Provider.of<TaskProvider>(context, listen: false).tasks[widget.index];
     _controller = TextEditingController(text: task.title);
     _selectedDate = task.dueDate;
-    _selectedTime = task.dueTime ?? const TimeOfDay(hour: 8, minute: 0);
+    // 26/06/2025: Ahora la hora se extrae de dueDate (DateTime completo)
+    if (task.dueDate != null) {
+      _selectedTime = TimeOfDay.fromDateTime(task.dueDate!);
+    } else {
+      _selectedTime = const TimeOfDay(hour: 8, minute: 0);
+    }
   }
 
   void _submit() async {
     final newTitle = _controller.text.trim();
     if (newTitle.isNotEmpty) {
       int? notificationId;
+      DateTime? finalDueDate; // 26/06/2025: Se agrega para almacenar la fecha y hora final
 
       final task = Provider.of<TaskProvider>(context, listen: false).tasks[widget.index];
 
       if (task.notificationId != null) {
-        await NotificationService.cancelNotification(task.notificationId!); // ✅ Cancelación de la notificación anterior antes de actualizar la tarea.
+        await NotificationService.cancelNotification(task.notificationId!); // 26/06/2025: Cancelar notificación anterior
       }
 
       await NotificationService.showImmediateNotification(
@@ -44,30 +50,31 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
       );
 
       if (_selectedDate != null && _selectedTime != null) {
-        final scheduledDateTime = DateTime(
+        finalDueDate = DateTime(
           _selectedDate!.year,
           _selectedDate!.month,
           _selectedDate!.day,
-          _selectedTime!.hour, // ✅ Manejo de la hora (dueTime) al programar la nueva notificación.
+          _selectedTime!.hour,
           _selectedTime!.minute,
-        );
+        ); // 26/06/2025: Unificar fecha y hora
 
-        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000); // ✅ Generación del nuevo identificador único de la notificación.
+        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
         await NotificationService.scheduleNotification(
           title: 'Recordatorio de tarea actualizada',
           body: 'No olvides: $newTitle',
-          scheduledDate: scheduledDateTime,
-          notificationId: notificationId, // ✅ Uso del nuevo identificador para programar la notificación.
+          scheduledDate: finalDueDate,
+          payload: 'Tarea actualizada: $newTitle para $finalDueDate', // 26/06/2025: Payload descriptivo
+          notificationId: notificationId,
         );
       }
 
+      // 26/06/2025: Actualizar la tarea usando la fecha y hora unificadas y el notificationId
       Provider.of<TaskProvider>(context, listen: false).updateTask(
         widget.index,
         newTitle,
-        newDate: _selectedDate,
-        newTime: _selectedTime, // ✅ Actualización de la hora de vencimiento.
-        notificationId: notificationId, // ✅ Actualización del identificador de notificación.
+        newDate: finalDueDate ?? _selectedDate, // 26/06/2025: Se pasa la fecha completa (con hora si existe)
+        notificationId: notificationId,
       );
 
       Navigator.pop(context);

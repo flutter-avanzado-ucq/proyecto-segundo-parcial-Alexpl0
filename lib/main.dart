@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
+// 26/06/2025: Integración Hive: importación de Hive Flutter
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'screens/tarea_screen.dart';
 import 'tema/tema_app.dart';
 import 'package:provider/provider.dart';
 import 'provider_task/task_provider.dart';
 
-// 🔔 Importar el servicio de notificaciones
-import 'services/notification_service.dart';
+// 26/06/2025: Importar modelo para Hive
+import 'models/task_model.dart';
 
+// Importar el servicio de notificaciones
+import 'services/notification_service.dart';
 
 void main() async {
   // Asegura que Flutter esté inicializado
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 26/06/2025: Integración Hive: inicialización de Hive
+  await Hive.initFlutter();
+
+  // 26/06/2025: Integración Hive: registro del adapter para Task
+  Hive.registerAdapter(TaskAdapter());
+
+  // 26/06/2025: Integración Hive: apertura de la caja tasksBox
+  await Hive.openBox<Task>('tasksBox');
 
   // Inicializar notificaciones
   await NotificationService.initializeNotifications();

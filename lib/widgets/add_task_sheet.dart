@@ -25,6 +25,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
     final text = _controller.text.trim();
     if (text.isNotEmpty) {
       int? notificationId;
+      DateTime? finalDueDate; // 26/06/2025: Se agrega variable para almacenar la fecha y hora final de la tarea
 
       await NotificationService.showImmediateNotification(
         title: 'Nueva tarea',
@@ -33,29 +34,30 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
       );
 
       if (_selectedDate != null && _selectedTime != null) {
-        final scheduledDateTime = DateTime(
+        finalDueDate = DateTime(
           _selectedDate!.year,
           _selectedDate!.month,
           _selectedDate!.day,
-          _selectedTime!.hour, // ✅ Manejo de la hora (dueTime) al programar la notificación.
+          _selectedTime!.hour,
           _selectedTime!.minute,
-        );
+        ); // 26/06/2025: Se unifica fecha y hora en un solo DateTime
 
-        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000); // ✅ Generación del identificador único de la notificación.
+        notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
         await NotificationService.scheduleNotification(
           title: 'Recordatorio de tarea',
           body: 'No olvides: $text',
-          scheduledDate: scheduledDateTime,
-          notificationId: notificationId, // ✅ Uso del identificador para programar la notificación.
+          scheduledDate: finalDueDate,
+          payload: 'Tarea programada: $text para $finalDueDate', // 26/06/2025: Se agrega payload más descriptivo
+          notificationId: notificationId,
         );
       }
 
+      // 26/06/2025: Se guarda la tarea usando la fecha y hora unificadas y el notificationId
       Provider.of<TaskProvider>(context, listen: false).addTask(
         text,
-        dueDate: _selectedDate,
-        dueTime: _selectedTime, // ✅ Se guarda la hora de vencimiento de la tarea.
-        notificationId: notificationId, // ✅ Se guarda el identificador de la notificación asociada.
+        dueDate: finalDueDate ?? _selectedDate, // 26/06/2025: Se pasa la fecha completa (con hora si existe)
+        notificationId: notificationId,
       );
 
       Navigator.pop(context);

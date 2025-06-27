@@ -73,7 +73,8 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
                           verticalOffset: 30.0,
                           child: FadeInAnimation(
                             child: Dismissible(
-                              key: ValueKey(task.title),
+                              // 26/06/2025: Integración Hive: uso de task.key (HiveObject)
+                              key: ValueKey(task.key),
                               direction: DismissDirection.endToStart,
                               onDismissed: (_) => taskProvider.removeTask(index),
                               background: Container(
@@ -87,10 +88,12 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
                                 child: const Icon(Icons.delete, color: Colors.white),
                               ),
                               child: TaskCard(
+                                // 26/06/2025: Integración Hive: uso de task.key como key en TaskCard
+                                key: ValueKey(task.key),
                                 title: task.title,
                                 isDone: task.done,
                                 dueDate: task.dueDate,
-                                dueTime: task.dueTime,
+                                // Removed dueTime as it is not defined in TaskCard
                                 onToggle: () {
                                   taskProvider.toggleTask(index);
                                   _iconController.forward(from: 0);
@@ -113,7 +116,8 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddTaskSheet,
-        backgroundColor: Colors.blueAccent,
+        // 26/06/2025: Cambio de color del FAB a pinkAccent para igualar el archivo nuevo
+        backgroundColor: Colors.pinkAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),

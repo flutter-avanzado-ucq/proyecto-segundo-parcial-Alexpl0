@@ -10,7 +10,6 @@ class TaskCard extends StatelessWidget {
   final VoidCallback onDelete;
   final Animation<double> iconRotation;
   final DateTime? dueDate;
-  final TimeOfDay? dueTime;
   final int index;
 
   const TaskCard({
@@ -22,7 +21,6 @@ class TaskCard extends StatelessWidget {
     required this.iconRotation,
     required this.index,
     this.dueDate,
-    this.dueTime,
   });
 
   @override
@@ -85,11 +83,10 @@ class TaskCard extends StatelessWidget {
                         'Vence: ${DateFormat('dd/MM/yyyy').format(dueDate!)}',
                         style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
-                      if (dueTime != null)
-                        Text(
-                          'Hora: ${dueTime!.hour.toString().padLeft(2, '0')}:${dueTime!.minute.toString().padLeft(2, '0')}',
-                          style: const TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
+                      Text(
+                        'Hora: ${DateFormat('HH:mm').format(dueDate!)}',
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
                     ],
                   ),
                 ),
