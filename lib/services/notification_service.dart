@@ -16,7 +16,6 @@ class NotificationService {
       iOS: iosSettings,
     );
 
-    // 26/06/2025: Inicialización de zonas horarias (necesario para notificaciones programadas)
     tz.initializeTimeZones();
 
     await _notificationsPlugin.initialize(
@@ -26,7 +25,6 @@ class NotificationService {
   }
 
   static void _onNotificationResponse(NotificationResponse response) {
-    // 26/06/2025: Cambio de mensaje de debug para igualar archivo nuevo
     if (response.payload != null) {
       print('Payload: ${response.payload}');
     }
@@ -96,6 +94,6 @@ class NotificationService {
   }
 
   static Future<void> cancelNotification(int id) async {
-    await _notificationsPlugin.cancel(id); // ✅ Cancelación de la notificación usando su identificador único.
+    await _notificationsPlugin.cancel(id); 
   }
 }

@@ -23,7 +23,6 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
     final task = Provider.of<TaskProvider>(context, listen: false).tasks[widget.index];
     _controller = TextEditingController(text: task.title);
     _selectedDate = task.dueDate;
-    // 26/06/2025: Ahora la hora se extrae de dueDate (DateTime completo)
     if (task.dueDate != null) {
       _selectedTime = TimeOfDay.fromDateTime(task.dueDate!);
     } else {
@@ -35,12 +34,12 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
     final newTitle = _controller.text.trim();
     if (newTitle.isNotEmpty) {
       int? notificationId;
-      DateTime? finalDueDate; // 26/06/2025: Se agrega para almacenar la fecha y hora final
+      DateTime? finalDueDate; 
 
       final task = Provider.of<TaskProvider>(context, listen: false).tasks[widget.index];
 
       if (task.notificationId != null) {
-        await NotificationService.cancelNotification(task.notificationId!); // 26/06/2025: Cancelar notificación anterior
+        await NotificationService.cancelNotification(task.notificationId!); 
       }
 
       await NotificationService.showImmediateNotification(
@@ -56,7 +55,7 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
           _selectedDate!.day,
           _selectedTime!.hour,
           _selectedTime!.minute,
-        ); // 26/06/2025: Unificar fecha y hora
+        ); 
 
         notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
@@ -64,7 +63,7 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
           title: 'Recordatorio de tarea actualizada',
           body: 'No olvides: $newTitle',
           scheduledDate: finalDueDate,
-          payload: 'Tarea actualizada: $newTitle para $finalDueDate', // 26/06/2025: Payload descriptivo
+          payload: 'Tarea actualizada: $newTitle para $finalDueDate', 
           notificationId: notificationId,
         );
       }
@@ -73,7 +72,7 @@ class _EditTaskSheetState extends State<EditTaskSheet> {
       Provider.of<TaskProvider>(context, listen: false).updateTask(
         widget.index,
         newTitle,
-        newDate: finalDueDate ?? _selectedDate, // 26/06/2025: Se pasa la fecha completa (con hora si existe)
+        newDate: finalDueDate ?? _selectedDate,
         notificationId: notificationId,
       );
 

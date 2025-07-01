@@ -25,7 +25,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
     final text = _controller.text.trim();
     if (text.isNotEmpty) {
       int? notificationId;
-      DateTime? finalDueDate; // 26/06/2025: Se agrega variable para almacenar la fecha y hora final de la tarea
+      DateTime? finalDueDate;
 
       await NotificationService.showImmediateNotification(
         title: 'Nueva tarea',
@@ -40,7 +40,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
           _selectedDate!.day,
           _selectedTime!.hour,
           _selectedTime!.minute,
-        ); // 26/06/2025: Se unifica fecha y hora en un solo DateTime
+        ); 
 
         notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
@@ -48,15 +48,14 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
           title: 'Recordatorio de tarea',
           body: 'No olvides: $text',
           scheduledDate: finalDueDate,
-          payload: 'Tarea programada: $text para $finalDueDate', // 26/06/2025: Se agrega payload más descriptivo
+          payload: 'Tarea programada: $text para $finalDueDate', 
           notificationId: notificationId,
         );
       }
 
-      // 26/06/2025: Se guarda la tarea usando la fecha y hora unificadas y el notificationId
       Provider.of<TaskProvider>(context, listen: false).addTask(
         text,
-        dueDate: finalDueDate ?? _selectedDate, // 26/06/2025: Se pasa la fecha completa (con hora si existe)
+        dueDate: finalDueDate ?? _selectedDate, 
         notificationId: notificationId,
       );
 

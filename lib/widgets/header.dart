@@ -10,7 +10,7 @@ class Header extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF2196F3), Color(0xFF64B5F6)], // Gradiente azul.
+          colors: [Color(0xFF2196F3), Color(0xFF64B5F6)], 
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
                 'Estas son tus tareas para hoy',
                 style: TextStyle(color: Colors.white70, fontSize: 14),
               ),
-              SizedBox(height: 8), // espacio visual
+              SizedBox(height: 8), 
             ],
           ),
         ],
