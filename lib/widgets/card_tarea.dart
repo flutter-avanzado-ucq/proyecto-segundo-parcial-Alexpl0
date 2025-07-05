@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart'; // Importamos AppLocalizations
 import '../widgets/edit_task_sheet.dart';
 
 class TaskCard extends StatelessWidget {
@@ -25,6 +26,9 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtenemos la instancia de las localizaciones para este contexto.
+    final localizations = AppLocalizations.of(context)!;
+
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 500),
       opacity: isDone ? 0.4 : 1.0,
@@ -79,12 +83,14 @@ class TaskCard extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 4,
                     children: [
+                      // Usamos la clave 'dueDate' de nuestras localizaciones
                       Text(
-                        'Vence: ${DateFormat('dd/MM/yyyy').format(dueDate!)}',
+                        '${localizations.dueDate} ${DateFormat('dd/MM/yyyy').format(dueDate!)}',
                         style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
+                      // Usamos la clave 'hourLabel' de nuestras localizaciones
                       Text(
-                        'Hora: ${DateFormat('HH:mm').format(dueDate!)}',
+                        '${localizations.hourLabel} ${DateFormat('HH:mm').format(dueDate!)}',
                         style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                     ],

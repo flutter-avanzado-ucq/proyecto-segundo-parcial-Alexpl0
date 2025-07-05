@@ -5,30 +5,30 @@ import 'screens/tarea_screen.dart';
 import 'tema/tema_app.dart';
 import 'package:provider/provider.dart';
 import 'provider_task/task_provider.dart';
-import 'provider_task/theme_provider.dart'; // 30 de Junio, se agrega para el manejo del tema (oscuro/claro)
+import 'provider_task/theme_provider.dart';
 
 import 'models/task_model.dart';
-
 import 'services/notification_service.dart';
+
+// 05 de julio: se agregó soporte para internacionalización
+import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-
   Hive.registerAdapter(TaskAdapter());
-
   await Hive.openBox<Task>('tasksBox');
 
   await NotificationService.initializeNotifications();
-
   await NotificationService.requestPermission();
 
   runApp(
-    MultiProvider( // 30 de Junio, se cambia ChangeNotifierProvider por MultiProvider para soportar múltiples providers
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => TaskProvider()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()), // 30 de Junio, se agrega ThemeProvider para el tema dinámico
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const MyApp(),
     ),
@@ -40,14 +40,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>( // 30 de Junio, se usa Consumer para escuchar cambios en el tema
+    return Consumer<ThemeProvider>(
       builder: (context, themeProvider, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Tareas Pro',
+          // 05 de julio: se agregó soporte para títulos dinámicos con internacionalización
+          onGenerateTitle: (context) {
+            return AppLocalizations.of(context)!.appTitle;
+          },
           theme: AppTheme.theme,
-          darkTheme: ThemeData.dark(), // 30 de Junio, se agrega soporte para tema oscuro
-          themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light, // 30 de Junio, cambia el tema según el provider
+          darkTheme: ThemeData.dark(),
+          themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+
+          // 05 de julio: se agregó configuración de internacionalización
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'), // Inglés
+            Locale('es'), // Español
+          ],
+
           home: const TaskScreen(),
         );
       },

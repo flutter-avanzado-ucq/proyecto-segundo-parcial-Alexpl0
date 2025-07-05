@@ -5,7 +5,8 @@ import '../widgets/card_tarea.dart';
 import '../widgets/header.dart';
 import '../widgets/add_task_sheet.dart';
 import '../provider_task/task_provider.dart';
-import '../provider_task/theme_provider.dart'; // 30 de Junio, se importa ThemeProvider para el cambio de tema
+import '../provider_task/theme_provider.dart';
+import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -46,21 +47,19 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     final taskProvider = context.watch<TaskProvider>();
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tareas Pro'), // 30 de Junio, se agrega AppBar con título
+        title: Text(localizations.appBarTitle),
         actions: [
-          // 30 de Junio, se agrega botón para cambiar entre tema claro y oscuro
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return IconButton(
                 icon: Icon(
-                  themeProvider.isDarkMode
-                      ? Icons.dark_mode
-                      : Icons.light_mode,
+                  themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
                 ),
-                tooltip: 'Cambiar tema',
+                tooltip: localizations.changeTheme,
                 onPressed: () {
                   themeProvider.toggleTheme();
                 },
@@ -87,7 +86,7 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
                         verticalOffset: 30.0,
                         child: FadeInAnimation(
                           child: Dismissible(
-                            key: ValueKey(task.key), // 30 de Junio, se asegura el uso de task.key para integración con Hive
+                            key: ValueKey(task.key),
                             direction: DismissDirection.endToStart,
                             onDismissed: (_) => taskProvider.removeTask(index),
                             background: Container(
@@ -101,7 +100,7 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
                               child: const Icon(Icons.delete, color: Colors.white),
                             ),
                             child: TaskCard(
-                              key: ValueKey(task.key), // 30 de Junio, se asegura el uso de task.key para integración con Hive
+                              key: ValueKey(task.key),
                               title: task.title,
                               isDone: task.done,
                               dueDate: task.dueDate,

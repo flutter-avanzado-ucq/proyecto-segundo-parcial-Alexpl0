@@ -1,38 +1,23 @@
 ## Cambios recientes y explicación
 
-### Sistema de temas dinámico (30 de Junio, 2025)
-- **Archivos nuevos:**  
-  - `lib/provider_task/theme_provider.dart`  
-  - `lib/services/preferences_service.dart`  
-- **Archivos modificados:**  
-  - `lib/main.dart`  
-  - `lib/screens/tarea_screen.dart`  
-- **¿Qué se hizo?**  
-  Se implementó un sistema de cambio de tema entre claro y oscuro. Se creó un `ThemeProvider` para gestionar el estado del tema y un `PreferencesService` para persistir la preferencia del usuario usando Hive. Se agregó un botón en el AppBar para alternar entre temas.  
-- **¿Para qué?**  
-  Para permitir al usuario personalizar la apariencia de la app según sus preferencias y mejorar la experiencia de uso en diferentes condiciones de iluminación.
+- **Archivos modificados:**
+  - `lib/widgets/card_tarea.dart`
+  - `lib/screens/tarea_screen.dart`
+  - `lib/provider_task/task_provider.dart`
+  - `lib/services/notification_service.dart`
+  - `lib/l10n/app_localizations_es.dart`
+  - `lib/l10n/app_localizations_en.dart`
+
+- **¿Qué se hizo?**
+  1. Se reemplazaron textos hardcodeados en `card_tarea.dart` por traducciones dinámicas utilizando `AppLocalizations`. Esto incluye textos como "Vence" y "Hora".
+  2. Se corrigió la lógica en `tarea_screen.dart` para que las tareas agregadas con fecha y hora se reflejen correctamente en la pantalla principal.
+  3. Se mejoró el manejo de notificaciones en `notification_service.dart`, asegurando que las notificaciones programadas no se creen con fechas pasadas.
+  4. Se ajustaron las traducciones en `app_localizations_es.dart` y `app_localizations_en.dart` para incluir claves como `dueDate` y `hourLabel`.
+  5. Se verificó que el `TaskProvider` notifique correctamente a los widgets dependientes al agregar, actualizar o eliminar tareas.
+
+- **¿Para qué?**
+  Para mejorar la experiencia del usuario al permitir traducciones dinámicas, corregir errores en la visualización de tareas y garantizar que las notificaciones funcionen correctamente.
 
 ---
 
-### Workflow del cambio de tema
-
-```mermaid
-sequenceDiagram
-    participant Usuario
-    participant TaskScreen
-    participant ThemeProvider
-    participant PreferencesService
-    participant Consumer
-    participant MaterialApp
-
-    Usuario->>TaskScreen: Toca botón de cambio de tema
-    TaskScreen->>ThemeProvider: toggleTheme()
-    ThemeProvider->>ThemeProvider: Cambia _isDarkMode
-    ThemeProvider->>PreferencesService: setDarkMode(_isDarkMode)
-    PreferencesService-->>ThemeProvider: Preferencia guardada
-    ThemeProvider->>ThemeProvider: notifyListeners()
-    ThemeProvider-->>Consumer: Notifica cambio
-    Consumer->>MaterialApp: Reconstruye con nuevo themeMode
-```
-
-**Última actualización: 30 de Junio, 2025**
+**Última actualización: 5 de Julio, 2025**

@@ -1,0 +1,62 @@
+{
+    "@@locale": "es",
+    "appTitle": "Tareas Pro",
+    "addTask": "Agregar tarea",
+    "editTask": "Editar tarea",
+    "deleteTask": "Eliminar tarea",
+    "taskDetails": "Detalles de la tarea",
+    "changeTheme": "Cambiar tema",
+    "addNewTask": "Agregar nueva tarea",
+    "selectDate": "Seleccionar fecha",
+    "timeLabel": "Hora:",
+    "dueDate": "Vence:",
+    "hourLabel": "Hora:",
+    "titleLabel": "Título",
+    "changeDate": "Cambiar fecha",
+    "saveChanges": "Guardar cambios",
+    "greeting": "Hola, Alex 👋",
+    "todayTasks": "Estas son tus tareas para hoy",
+    "name": "nombre",
+    "description": "Descripción",
+    "selectTime": "Seleccionar hora",
+    "changeTime": "Cambiar hora",
+    "editTaskTitle": "Editar Tarea",
+    "selectDateButton": "Selecciona una fecha",
+    "appBarTitle": "Mis Tareas",
+    "notificationTaskUpdatedTitle": "Tarea actualizada",
+    "notificationTaskUpdatedBody": "Has actualizado la tarea: {taskName}",
+    "@notificationTaskUpdatedBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationReminderTaskUpdatedTitle": "Recordatorio de tarea actualizada",
+    "notificationReminderTaskUpdatedBody": "No olvides: {taskName}",
+    "@notificationReminderTaskUpdatedBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationNewTaskTitle": "Nueva tarea",
+    "notificationNewTaskBody": "Has agregado la tarea: {taskName}",
+    "@notificationNewTaskBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationReminderTaskTitle": "Recordatorio de tarea",
+    "notificationReminderTaskBody": "No olvides: {taskName}",
+    "@notificationReminderTaskBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "@@locale": "en",
+    "appTitle": "Task Manager",
+    "addTask": "Add task",
+    "editTask": "Edit task",
+    "deleteTask": "Delete task",
+    "changeTheme": "Change theme",
+    "addNewTask": "Add new task",
+    "description": "Description",
+    "selectDate": "Select date",
+    "selectTime": "Select time",
+    "timeLabel": "Time:",
+    "dueDate": "Due:",
+    "hourLabel": "Time:",
+    "titleLabel": "Title",
+    "saveChanges": "Save changes",
+    "greeting": "Hi, Alex 👋",
+    "todayTasks": "These are your tasks for today",
+    "name": "name",
+    "changeDate": "Change date",
+    "changeTime": "Change time",
+    "editTaskTitle": "Edit Task",
+    "selectDateButton": "Select a date",
+    "appBarTitle": "My Tasks",
+    "notificationTaskUpdatedTitle": "Task Updated",
+    "notificationTaskUpdatedBody": "You have updated the task: {taskName}",
+    "@notificationTaskUpdatedBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationReminderTaskUpdatedTitle": "Updated Task Reminder",
+    "notificationReminderTaskUpdatedBody": "Don't forget: {taskName}",
+    "@notificationReminderTaskUpdatedBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationNewTaskTitle": "New Task",
+    "notificationNewTaskBody": "You have added the task: {taskName}",
+    "@notificationNewTaskBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationReminderTaskTitle": "Task Reminder",
+    "notificationReminderTaskBody": "Don't forget: {taskName}",
+    "@notificationReminderTaskBody": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    }
+}
