@@ -158,12 +158,6 @@ abstract class AppLocalizations {
   /// **'Time:'**
   String get timeLabel;
 
-  /// No description provided for @dueDate.
-  ///
-  /// In en, this message translates to:
-  /// **'Due:'**
-  String get dueDate;
-
   /// No description provided for @hourLabel.
   ///
   /// In en, this message translates to:
@@ -240,7 +234,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'You have updated the task: {taskName}'**
-  String notificationTaskUpdatedBody(String taskName);
+  String notificationTaskUpdatedBody(Object taskName);
 
   /// No description provided for @notificationReminderTaskUpdatedTitle.
   ///
@@ -252,7 +246,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Don\'t forget: {taskName}'**
-  String notificationReminderTaskUpdatedBody(String taskName);
+  String notificationReminderTaskUpdatedBody(Object taskName);
 
   /// No description provided for @notificationNewTaskTitle.
   ///
@@ -264,7 +258,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'You have added the task: {taskName}'**
-  String notificationNewTaskBody(String taskName);
+  String notificationNewTaskBody(Object taskName);
 
   /// No description provided for @notificationReminderTaskTitle.
   ///
@@ -276,7 +270,25 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Don\'t forget: {taskName}'**
-  String notificationReminderTaskBody(String taskName);
+  String notificationReminderTaskBody(Object taskName);
+
+  /// Text for the language change option
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Shows the due date of the task, using a formatted date as a placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Due on {date}'**
+  String dueDate(String date);
+
+  /// A message showing how many tasks are pending, with pluralization support.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{You have no pending tasks} =1{You have 1 pending task} other{You have {count} pending tasks}}'**
+  String pendingTasks(int count);
 }
 
 class _AppLocalizationsDelegate

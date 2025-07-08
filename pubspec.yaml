@@ -1,6 +1,6 @@
 name: flutter_animaciones_notificaciones
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -17,10 +17,16 @@ dependencies:
   google_fonts: ^6.1.0
   flutter_staggered_animations: ^1.1.1
   provider: ^6.1.1
-  intl: ^0.20.2 # Actualizado a la versión requerida por flutter_localizations
-  timezone: ^0.9.3 # Versión actualizada
+  intl: ^0.20.2 
+  timezone: ^0.9.3
   permission_handler: ^11.3.0
-  flutter_local_notifications: ^17.2.1 # Versión actualizada y corregida
+  flutter_local_notifications: ^17.2.1
+  
+  # 07 de Julio del 2025: ¡CORRECCIÓN! Se añade la dependencia que faltaba.
+  # Esta línea es crucial para que el paquete shared_preferences esté disponible
+  # en todo tu proyecto. Sin esto, la línea 'import' en el código Dart no funciona.
+  shared_preferences: ^2.2.3
+
 
 dev_dependencies:
   flutter_test:
@@ -39,4 +45,3 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-  # La sección 'assets' para l10n fue eliminada porque no es necesaria.

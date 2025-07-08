@@ -39,9 +39,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get timeLabel => 'Time:';
 
   @override
-  String get dueDate => 'Due:';
-
-  @override
   String get hourLabel => 'Time:';
 
   @override
@@ -78,7 +75,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationTaskUpdatedTitle => 'Task Updated';
 
   @override
-  String notificationTaskUpdatedBody(String taskName) {
+  String notificationTaskUpdatedBody(Object taskName) {
     return 'You have updated the task: $taskName';
   }
 
@@ -86,7 +83,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationReminderTaskUpdatedTitle => 'Updated Task Reminder';
 
   @override
-  String notificationReminderTaskUpdatedBody(String taskName) {
+  String notificationReminderTaskUpdatedBody(Object taskName) {
     return 'Don\'t forget: $taskName';
   }
 
@@ -94,7 +91,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationNewTaskTitle => 'New Task';
 
   @override
-  String notificationNewTaskBody(String taskName) {
+  String notificationNewTaskBody(Object taskName) {
     return 'You have added the task: $taskName';
   }
 
@@ -102,7 +99,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationReminderTaskTitle => 'Task Reminder';
 
   @override
-  String notificationReminderTaskBody(String taskName) {
+  String notificationReminderTaskBody(Object taskName) {
     return 'Don\'t forget: $taskName';
+  }
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String dueDate(String date) {
+    return 'Due on $date';
+  }
+
+  @override
+  String pendingTasks(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'You have $countString pending tasks',
+      one: 'You have 1 pending task',
+      zero: 'You have no pending tasks',
+    );
+    return '$_temp0';
   }
 }

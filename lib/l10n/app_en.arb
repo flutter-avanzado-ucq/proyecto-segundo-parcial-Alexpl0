@@ -10,7 +10,6 @@
     "selectDate": "Select date",
     "selectTime": "Select time",
     "timeLabel": "Time:",
-    "dueDate": "Due:",
     "hourLabel": "Time:",
     "titleLabel": "Title",
     "saveChanges": "Save changes",
@@ -24,37 +23,36 @@
     "appBarTitle": "My Tasks",
     "notificationTaskUpdatedTitle": "Task Updated",
     "notificationTaskUpdatedBody": "You have updated the task: {taskName}",
-    "@notificationTaskUpdatedBody": {
-        "placeholders": {
-            "taskName": {
-                "type": "String"
-            }
-        }
-    },
     "notificationReminderTaskUpdatedTitle": "Updated Task Reminder",
     "notificationReminderTaskUpdatedBody": "Don't forget: {taskName}",
-    "@notificationReminderTaskUpdatedBody": {
-        "placeholders": {
-            "taskName": {
-                "type": "String"
-            }
-        }
-    },
     "notificationNewTaskTitle": "New Task",
     "notificationNewTaskBody": "You have added the task: {taskName}",
-    "@notificationNewTaskBody": {
+    "notificationReminderTaskTitle": "Task Reminder",
+    "notificationReminderTaskBody": "Don't forget: {taskName}",
+
+    "language": "Language",
+    "@language": {
+        "description": "Text for the language change option"
+    },
+
+    "dueDate": "Due on {date}",
+    "@dueDate": {
+        "description": "Shows the due date of the task, using a formatted date as a placeholder.",
         "placeholders": {
-            "taskName": {
-                "type": "String"
+            "date": {
+                "type": "String",
+                "example": "July 7, 2024"
             }
         }
     },
-    "notificationReminderTaskTitle": "Task Reminder",
-    "notificationReminderTaskBody": "Don't forget: {taskName}",
-    "@notificationReminderTaskBody": {
+
+    "pendingTasks": "{count, plural, =0{You have no pending tasks} =1{You have 1 pending task} other{You have {count} pending tasks}}",
+    "@pendingTasks": {
+        "description": "A message showing how many tasks are pending, with pluralization support.",
         "placeholders": {
-            "taskName": {
-                "type": "String"
+            "count": {
+                "type": "int",
+                "format": "compact"
             }
         }
     }

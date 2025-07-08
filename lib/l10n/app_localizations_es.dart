@@ -39,9 +39,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get timeLabel => 'Hora:';
 
   @override
-  String get dueDate => 'Vence:';
-
-  @override
   String get hourLabel => 'Hora:';
 
   @override
@@ -78,7 +75,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notificationTaskUpdatedTitle => 'Tarea actualizada';
 
   @override
-  String notificationTaskUpdatedBody(String taskName) {
+  String notificationTaskUpdatedBody(Object taskName) {
     return 'Has actualizado la tarea: $taskName';
   }
 
@@ -87,7 +84,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Recordatorio de tarea actualizada';
 
   @override
-  String notificationReminderTaskUpdatedBody(String taskName) {
+  String notificationReminderTaskUpdatedBody(Object taskName) {
     return 'No olvides: $taskName';
   }
 
@@ -95,7 +92,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notificationNewTaskTitle => 'Nueva tarea';
 
   @override
-  String notificationNewTaskBody(String taskName) {
+  String notificationNewTaskBody(Object taskName) {
     return 'Has agregado la tarea: $taskName';
   }
 
@@ -103,7 +100,32 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notificationReminderTaskTitle => 'Recordatorio de tarea';
 
   @override
-  String notificationReminderTaskBody(String taskName) {
+  String notificationReminderTaskBody(Object taskName) {
     return 'No olvides: $taskName';
+  }
+
+  @override
+  String get language => 'Idioma';
+
+  @override
+  String dueDate(String date) {
+    return 'Vence el $date';
+  }
+
+  @override
+  String pendingTasks(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Tienes $countString tareas pendientes',
+      one: 'Tienes 1 tarea pendiente',
+      zero: 'No tienes tareas pendientes',
+    );
+    return '$_temp0';
   }
 }

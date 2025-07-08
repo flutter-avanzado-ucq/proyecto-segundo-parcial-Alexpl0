@@ -4,58 +4,55 @@
     "addTask": "Agregar tarea",
     "editTask": "Editar tarea",
     "deleteTask": "Eliminar tarea",
-    "taskDetails": "Detalles de la tarea",
     "changeTheme": "Cambiar tema",
     "addNewTask": "Agregar nueva tarea",
+    "description": "Descripción",
     "selectDate": "Seleccionar fecha",
+    "selectTime": "Seleccionar hora",
     "timeLabel": "Hora:",
-    "dueDate": "Vence:",
     "hourLabel": "Hora:",
     "titleLabel": "Título",
-    "changeDate": "Cambiar fecha",
     "saveChanges": "Guardar cambios",
     "greeting": "Hola, Alex 👋",
     "todayTasks": "Estas son tus tareas para hoy",
     "name": "nombre",
-    "description": "Descripción",
-    "selectTime": "Seleccionar hora",
+    "changeDate": "Cambiar fecha",
     "changeTime": "Cambiar hora",
     "editTaskTitle": "Editar Tarea",
     "selectDateButton": "Selecciona una fecha",
     "appBarTitle": "Mis Tareas",
     "notificationTaskUpdatedTitle": "Tarea actualizada",
     "notificationTaskUpdatedBody": "Has actualizado la tarea: {taskName}",
-    "@notificationTaskUpdatedBody": {
-        "placeholders": {
-            "taskName": {
-                "type": "String"
-            }
-        }
-    },
     "notificationReminderTaskUpdatedTitle": "Recordatorio de tarea actualizada",
     "notificationReminderTaskUpdatedBody": "No olvides: {taskName}",
-    "@notificationReminderTaskUpdatedBody": {
-        "placeholders": {
-            "taskName": {
-                "type": "String"
-            }
-        }
-    },
     "notificationNewTaskTitle": "Nueva tarea",
     "notificationNewTaskBody": "Has agregado la tarea: {taskName}",
-    "@notificationNewTaskBody": {
+    "notificationReminderTaskTitle": "Recordatorio de tarea",
+    "notificationReminderTaskBody": "No olvides: {taskName}",
+
+    "language": "Idioma",
+    "@language": {
+        "description": "Texto para la opción de cambiar idioma"
+    },
+
+    "dueDate": "Vence el {date}",
+    "@dueDate": {
+        "description": "Muestra la fecha de vencimiento de la tarea, usando una fecha formateada como placeholder.",
         "placeholders": {
-            "taskName": {
-                "type": "String"
+            "date": {
+                "type": "String",
+                "example": "7 de julio de 2024"
             }
         }
     },
-    "notificationReminderTaskTitle": "Recordatorio de tarea",
-    "notificationReminderTaskBody": "No olvides: {taskName}",
-    "@notificationReminderTaskBody": {
+
+    "pendingTasks": "{count, plural, =0{No tienes tareas pendientes} =1{Tienes 1 tarea pendiente} other{Tienes {count} tareas pendientes}}",
+    "@pendingTasks": {
+        "description": "Un mensaje que muestra cuántas tareas quedan pendientes, con soporte para pluralización.",
         "placeholders": {
-            "taskName": {
-                "type": "String"
+            "count": {
+                "type": "int",
+                "format": "compact"
             }
         }
     }
