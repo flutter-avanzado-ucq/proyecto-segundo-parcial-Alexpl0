@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider_task/task_provider.dart';
 import '../services/notification_service.dart';
+import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart'; //05 de julio: se agregó soporte para localización
 
 class AddTaskSheet extends StatefulWidget {
   const AddTaskSheet({super.key});
@@ -22,14 +23,16 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   }
 
   void _submit() async {
+    final localizations = AppLocalizations.of(context)!; //05 de julio: se agregó soporte para traducciones
     final text = _controller.text.trim();
     if (text.isNotEmpty) {
       int? notificationId;
       DateTime? finalDueDate;
 
+      //05 de julio: se agregó traducción al título y cuerpo de la notificación
       await NotificationService.showImmediateNotification(
-        title: 'Nueva tarea',
-        body: 'Has agregado la tarea: $text',
+        title: localizations.notificationNewTaskTitle,
+        body: localizations.notificationNewTaskBody(text), //05 de julio: se agregó parámetro dinámico al cuerpo
         payload: 'Tarea: $text',
       );
 
@@ -40,22 +43,23 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
           _selectedDate!.day,
           _selectedTime!.hour,
           _selectedTime!.minute,
-        ); 
+        );
 
         notificationId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
+        //05 de julio: se agregó traducción al título y cuerpo del recordatorio
         await NotificationService.scheduleNotification(
-          title: 'Recordatorio de tarea',
-          body: 'No olvides: $text',
+          title: localizations.notificationReminderTaskTitle,
+          body: localizations.notificationReminderTaskBody(text), //05 de julio: se agregó parámetro dinámico al cuerpo
           scheduledDate: finalDueDate,
-          payload: 'Tarea programada: $text para $finalDueDate', 
+          payload: 'Tarea programada: $text para $finalDueDate',
           notificationId: notificationId,
         );
       }
 
       Provider.of<TaskProvider>(context, listen: false).addTask(
         text,
-        dueDate: finalDueDate ?? _selectedDate, 
+        dueDate: finalDueDate ?? _selectedDate,
         notificationId: notificationId,
       );
 
@@ -92,6 +96,8 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!; //05 de julio: se agregó soporte para traducciones
+
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
@@ -102,14 +108,17 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Agregar nueva tarea', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(
+            localizations.addNewTask, //05 de julio: se agregó traducción al título
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 12),
           TextField(
             controller: _controller,
             autofocus: true,
-            decoration: const InputDecoration(
-              labelText: 'Descripción',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: localizations.description, //05 de julio: se agregó traducción al label
+              border: const OutlineInputBorder(),
             ),
             onSubmitted: (_) => _submit(),
           ),
@@ -118,7 +127,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
             children: [
               ElevatedButton(
                 onPressed: _pickDate,
-                child: const Text('Seleccionar fecha'),
+                child: Text(localizations.selectDateButton), //05 de julio: se agregó traducción al botón de fecha
               ),
               const SizedBox(width: 10),
               if (_selectedDate != null)
@@ -130,10 +139,10 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
             children: [
               ElevatedButton(
                 onPressed: _pickTime,
-                child: const Text('Seleccionar hora'),
+                child: Text(localizations.selectTime), // 05 de julio: se agregó traducción al botón de hora
               ),
               const SizedBox(width: 10),
-              const Text('Hora: '),
+              Text(localizations.timeLabel), // 05 de julio: se agregó traducción al label de hora
               if (_selectedTime != null)
                 Text('${_selectedTime!.hour.toString().padLeft(2, '0')}:${_selectedTime!.minute.toString().padLeft(2, '0')}'),
             ],
@@ -142,7 +151,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
           ElevatedButton.icon(
             onPressed: _submit,
             icon: const Icon(Icons.check),
-            label: const Text('Agregar tarea'),
+            label: Text(localizations.addTask), // 05 de julio: se agregó traducción al botón de agregar tarea
           ),
         ],
       ),

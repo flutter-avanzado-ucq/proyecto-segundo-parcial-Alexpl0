@@ -2,6 +2,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'dart:io' show Platform; // Import Platform
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -31,14 +32,27 @@ class NotificationService {
   }
 
   static Future<void> requestPermission() async {
-    if (await Permission.notification.isDenied ||
-        await Permission.notification.isPermanentlyDenied) {
-      await Permission.notification.request();
-    }
+    // Solo ejecutar en plataformas móviles
+    if (Platform.isAndroid || Platform.isIOS) {
+      // Solicitar permiso básico de notificaciones
+      if (await Permission.notification.isDenied) {
+        await Permission.notification.request();
+      }
 
-    await _notificationsPlugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(alert: true, badge: true, sound: true);
+      // En Android, solicitar permiso para alarmas exactas
+      if (Platform.isAndroid) {
+        if (await Permission.scheduleExactAlarm.isDenied) {
+          await Permission.scheduleExactAlarm.request();
+        }
+      }
+
+      // Solicitar permisos específicos para iOS
+      if(Platform.isIOS){
+         await _notificationsPlugin
+          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
+      }
+    }
   }
 
   static Future<void> showImmediateNotification({
@@ -72,6 +86,11 @@ class NotificationService {
     required int notificationId,
     String? payload,
   }) async {
+    if (scheduledDate.isBefore(DateTime.now())) {
+      print('La fecha y hora programadas ya pasaron. No se puede programar la notificación.');
+      return;
+    }
+
     const androidDetails = AndroidNotificationDetails(
       'scheduled_channel',
       'Notificaciones Programadas',
@@ -89,11 +108,12 @@ class NotificationService {
       tz.TZDateTime.from(scheduledDate, tz.local),
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
     );
   }
 
   static Future<void> cancelNotification(int id) async {
-    await _notificationsPlugin.cancel(id); 
+    await _notificationsPlugin.cancel(id);
   }
 }

@@ -1,0 +1,59 @@
+{
+    "@@locale": "en",
+    "appTitle": "Task Manager",
+    "addTask": "Add task",
+    "editTask": "Edit task",
+    "deleteTask": "Delete task",
+    "changeTheme": "Change theme",
+    "addNewTask": "Add new task",
+    "description": "Description",
+    "selectDate": "Select date",
+    "selectTime": "Select time",
+    "timeLabel": "Time:",
+    "hourLabel": "Time:",
+    "titleLabel": "Title",
+    "saveChanges": "Save changes",
+    "greeting": "Hi, Alex 👋",
+    "todayTasks": "These are your tasks for today",
+    "name": "name",
+    "changeDate": "Change date",
+    "changeTime": "Change time",
+    "editTaskTitle": "Edit Task",
+    "selectDateButton": "Select a date",
+    "appBarTitle": "My Tasks",
+    "notificationTaskUpdatedTitle": "Task Updated",
+    "notificationTaskUpdatedBody": "You have updated the task: {taskName}",
+    "notificationReminderTaskUpdatedTitle": "Updated Task Reminder",
+    "notificationReminderTaskUpdatedBody": "Don't forget: {taskName}",
+    "notificationNewTaskTitle": "New Task",
+    "notificationNewTaskBody": "You have added the task: {taskName}",
+    "notificationReminderTaskTitle": "Task Reminder",
+    "notificationReminderTaskBody": "Don't forget: {taskName}",
+
+    "language": "Language",
+    "@language": {
+        "description": "Text for the language change option"
+    },
+
+    "dueDate": "Due on {date}",
+    "@dueDate": {
+        "description": "Shows the due date of the task, using a formatted date as a placeholder.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "July 7, 2024"
+            }
+        }
+    },
+
+    "pendingTasks": "{count, plural, =0{You have no pending tasks} =1{You have 1 pending task} other{You have {count} pending tasks}}",
+    "@pendingTasks": {
+        "description": "A message showing how many tasks are pending, with pluralization support.",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "format": "compact"
+            }
+        }
+    }
+}

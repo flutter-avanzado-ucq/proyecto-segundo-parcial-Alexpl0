@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+// 07 de Julio del 2025: Se importan las localizaciones para acceder a los textos traducidos.
+import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart';
 import '../widgets/edit_task_sheet.dart';
 
 class TaskCard extends StatelessWidget {
@@ -25,6 +27,9 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 07 de Julio del 2025: Se obtiene la instancia de las localizaciones para este contexto.
+    final localizations = AppLocalizations.of(context)!;
+
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 500),
       opacity: isDone ? 0.4 : 1.0,
@@ -44,6 +49,7 @@ class TaskCard extends StatelessWidget {
           ],
         ),
         child: ListTile(
+          contentPadding: EdgeInsets.zero,
           leading: GestureDetector(
             onTap: onToggle,
             child: AnimatedBuilder(
@@ -75,19 +81,32 @@ class TaskCard extends StatelessWidget {
               if (dueDate != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
-                    children: [
-                      Text(
-                        'Vence: ${DateFormat('dd/MM/yyyy').format(dueDate!)}',
+                  // 07 de Julio del 2025: Se reemplaza la forma de mostrar la fecha.
+                  // En lugar de un Text simple, se usa un Builder para acceder al contexto
+                  // más cercano y obtener el 'locale' actual para formatear la fecha.
+                  child: Builder(
+                    builder: (context) {
+                      // 07 de Julio del 2025: Se obtiene el código de idioma del contexto actual.
+                      // Ej: 'es' para español, 'en' para inglés.
+                      final locale = Localizations.localeOf(context).languageCode;
+                      
+                      // 07 de Julio del 2025: Se formatea la fecha usando el paquete 'intl'.
+                      // 'yMMMMd' es un formato esqueleto que 'intl' adapta al 'locale'.
+                      // Para 'es', será algo como "7 de julio de 2025".
+                      // Para 'en', será "July 7, 2025".
+                      final formattedDate = DateFormat.yMMMMd(locale).format(dueDate!);
+                      
+                      // 07 de Julio del 2025: Se usa la función de localización 'dueDate'.
+                      // Esta función toma la fecha ya formateada y la inserta en el placeholder
+                      // definido en los archivos .arb ("Vence el {date}" o "Due on {date}").
+                      final translatedDueDate = localizations.dueDate(formattedDate);
+                      
+                      // 07 de Julio del 2025: Finalmente, se muestra el texto completamente localizado.
+                      return Text(
+                        translatedDueDate,
                         style: const TextStyle(fontSize: 12, color: Colors.grey),
-                      ),
-                      Text(
-                        'Hora: ${DateFormat('HH:mm').format(dueDate!)}',
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
             ],
