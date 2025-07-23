@@ -1,16 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-<<<<<<< HEAD
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-=======
-    <!-- Permisos existentes -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
-    <!-- PERMISO NUEVO Y NECESARIO -->
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
 
     <application
         android:label="flutter_animaciones_notificaciones"

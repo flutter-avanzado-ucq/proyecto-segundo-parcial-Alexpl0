@@ -6,17 +6,11 @@ import '../widgets/header.dart';
 import '../widgets/add_task_sheet.dart';
 import '../provider_task/task_provider.dart';
 import '../provider_task/theme_provider.dart';
-<<<<<<< HEAD
 // 21 de julio: AÑADIDO - Importación del WeatherProvider.
 // Al igual que en main.dart, necesitamos importar el provider aquí para poder interactuar con él,
 // específicamente para poder llamar al método que carga la información del clima.
 import '../provider_task/weather_provider.dart';
-=======
-// 07 de Julio del 2025: Se importan las localizaciones para acceder a los textos traducidos.
 import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart';
-// 07 de Julio del 2025: Se importa la nueva pantalla de ajustes de idioma.
-import 'settings_screen.dart';
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -90,44 +84,19 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    // 07 de Julio del 2025: Se obtiene la instancia del TaskProvider para acceder a la lista de tareas.
     final taskProvider = context.watch<TaskProvider>();
-    // 07 de Julio del 2025: Se obtiene la instancia de las localizaciones para este contexto.
-    // Esto permite llamar a métodos como 'localizations.appBarTitle'.
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD
         title: const Text('Tareas Pro'),
         actions: [
-=======
-        // 07 de Julio del 2025: El título del AppBar ahora viene de las localizaciones.
-        title: Text(localizations.appBarTitle),
-        actions: [
-          // 07 de Julio del 2025: Se añade un nuevo botón a la barra de acciones.
-          // Este IconButton permite al usuario navegar a la pantalla de selección de idioma.
-          IconButton(
-            icon: const Icon(Icons.language),
-            // 07 de Julio del 2025: El tooltip (texto que aparece al dejar presionado el botón)
-            // también se obtiene de las localizaciones para que se traduzca.
-            tooltip: localizations.language,
-            onPressed: () {
-              // 07 de Julio del 2025: Al presionar, se navega a la SettingsScreen.
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
-            },
-          ),
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return IconButton(
                 icon: Icon(
                   themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
                 ),
-                // 07 de Julio del 2025: El tooltip para cambiar tema también se localiza.
                 tooltip: localizations.changeTheme,
                 onPressed: () {
                   themeProvider.toggleTheme();
@@ -142,17 +111,10 @@ class _TaskScreenState extends State<TaskScreen> with SingleTickerProviderStateM
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Header(),
-            // 07 de Julio del 2025: Se añade un texto para mostrar el conteo de tareas pendientes.
-            // Este widget mostrará un mensaje que cambia según el número de tareas,
-            // gracias a la pluralización definida en los archivos .arb.
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
-                // 07 de Julio del 2025: Se llama a la función 'pendingTasks' generada.
-                // Se le pasa el número total de tareas. Flutter se encargará de elegir
-                // la cadena correcta ('=0', '=1', u 'other') según este valor.
                 localizations.pendingTasks(taskProvider.tasks.length),
-                // 07 de Julio del 2025: Se le da un estilo para que sea visible y consistente.
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),

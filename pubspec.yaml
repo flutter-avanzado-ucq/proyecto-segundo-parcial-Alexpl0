@@ -10,46 +10,28 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-<<<<<<< HEAD
-=======
   flutter_localizations:
     sdk: flutter
-
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
   cupertino_icons: ^1.0.8
   google_fonts: ^6.1.0
   flutter_staggered_animations: ^1.1.1
   provider: ^6.1.1
   intl: ^0.20.2 
-  timezone: ^0.9.3
+  timezone: ^0.10.1
   permission_handler: ^11.3.0
-<<<<<<< HEAD
-  flutter_local_notifications: 19.2.1
-  shared_preferences: ^2.0.15
-  http: ^1.2.0
-=======
-  flutter_local_notifications: ^17.2.1
-  
-  # 07 de Julio del 2025: ¡CORRECCIÓN! Se añade la dependencia que faltaba.
-  # Esta línea es crucial para que el paquete shared_preferences esté disponible
-  # en todo tu proyecto. Sin esto, la línea 'import' en el código Dart no funciona.
+  flutter_local_notifications: ^19.2.1
   shared_preferences: ^2.2.3
-
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^4.0.0
-
-  # Para usar Hive
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   path_provider: ^2.1.3
   build_runner: ^2.4.8
   hive_generator: ^2.0.1
-
 
 flutter:
   uses-material-design: true

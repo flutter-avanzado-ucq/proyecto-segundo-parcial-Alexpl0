@@ -1,89 +1,66 @@
-## Informe de Actualización del Proyecto - 7 de Julio de 2025
+# Tareas Pro - Informe de Actualización
+
+## Informe de Actualización del Proyecto - 22 de julio de 2025
+
 ### Resumen General de la Actualización
-El objetivo principal de esta actualización ha sido la implementación de un sistema completo de internacionalización (i18n) y localización (l10n). Se ha dotado a la aplicación de la capacidad de presentar su interfaz de usuario en múltiples idiomas (español e inglés), permitiendo al usuario seleccionar su preferencia o utilizar la configuración de su dispositivo. Esta mejora no solo enriquece la experiencia del usuario, sino que también establece una base de código escalable y mantenible para futuras traducciones.
-
-### Nuevas Funcionalidades Implementadas
-#### Pantalla de Selección de Idioma:
-
-Se ha introducido una nueva pantalla de "Ajustes" accesible a través de un icono de globo terráqueo en la barra de navegación principal.
-
-Desde esta pantalla, el usuario puede elegir activamente entre "Español", "English" o "Usar idioma del sistema".
-
-La preferencia de idioma seleccionada por el usuario se guarda de forma persistente en el dispositivo, de modo que se mantiene entre sesiones.
-
-#### Interfaz de Usuario Completamente Localizada:
-
-Todos los textos visibles para el usuario han sido abstraídos de la lógica de la UI.
-
-La aplicación ahora traduce dinámicamente elementos como títulos, botones, tooltips y mensajes informativos.
-
-Se ha implementado un sistema de pluralización para mensajes que dependen de una cantidad, como el contador de tareas pendientes.
-
-El formato de las fechas (ej. "7 de julio de 2025" vs. "July 7, 2025") se adapta automáticamente al locale (configuración regional) activo.
-
-### Detalles Técnicos de la Implementación
-La arquitectura de la solución se ha centrado en la modularidad y la gestión de estado centralizada, siguiendo las mejores prácticas de Flutter.
-
-#### 1. Gestión de Estado del Idioma (locale_provider.dart)
-**Archivo Creado:** `lib/provider_task/locale_provider.dart`
-
-**Descripción:** Se ha creado un nuevo ChangeNotifierProvider para gestionar de forma centralizada el Locale actual de la aplicación.
-
-**Funcionamiento:**
-
-- Utiliza el paquete Provider para notificar a los widgets de la interfaz cuando el idioma cambia, provocando una reconstrucción con las traducciones correctas.
-
-- Integra el paquete SharedPreferences para guardar el código del idioma seleccionado por el usuario ('es' o 'en'). Al iniciar la aplicación, el provider carga esta preferencia para ofrecer una experiencia consistente.
-
-- Expone métodos para setLocale() (cambiar a un idioma específico) y clearLocale() (eliminar la preferencia y volver a usar el idioma del sistema).
-
-#### 2. Configuración Principal de la Aplicación (main.dart)
-**Archivo Modificado:** `lib/main.dart`
-
-**Descripción:** Se ha configurado el widget raíz MaterialApp para que sea consciente del sistema de localización.
-
-**Cambios Clave:**
-
-- **Registro del Provider:** El LocaleProvider fue registrado en el MultiProvider para que esté disponible en todo el árbol de widgets.
-
-- **Delegados de Localización:** Se han añadido los localizationsDelegates necesarios, incluyendo AppLocalizations.delegate para las traducciones personalizadas de la app, y los delegados globales (GlobalMaterialLocalizations, etc.) para los textos predeterminados de los widgets de Flutter.
-
-- **Idiomas Soportados:** Se ha definido la lista de supportedLocales para informar a Flutter que la aplicación soporta inglés y español.
-
-- **Lógica de Resolución de Idioma:** Se implementó una lógica personalizada en localeResolutionCallback que determina el idioma a mostrar con el siguiente orden de prioridad:
-
-  1. El idioma guardado explícitamente por el usuario.
-
-  2. Si no hay preferencia guardada, el idioma del dispositivo si es compatible.
-
-  3. Como última opción, el primer idioma de la lista de soportados (inglés).
-
-#### 3. Interfaz de Usuario para la Configuración (settings_screen.dart)
-**Archivo Creado:** `lib/screens/settings_screen.dart`
-
-**Descripción:** Una nueva pantalla StatelessWidget que permite al usuario interactuar con el LocaleProvider para cambiar el idioma de la aplicación de forma visual e intuitiva.
-
-#### 4. Integración en la Interfaz Existente
-**Archivos Modificados:** `lib/screens/tarea_screen.dart` y `lib/widgets/card_tarea.dart`.
-
-**Descripción:** Se han refactorizado los componentes de la UI para consumir los textos del sistema de localización en lugar de usar cadenas de texto estáticas ("hardcoded").
-
-**Ejemplos Notables:**
-
-- En `tarea_screen.dart`, el título del AppBar y el contador de tareas pendientes (localizations.pendingTasks(count)) ahora son dinámicos.
-
-- En `card_tarea.dart`, la fecha de vencimiento se formatea usando DateFormat.yMMMMd(locale) del paquete intl y luego se inserta en la cadena localizada correspondiente (localizations.dueDate(formattedDate)), asegurando un formato de fecha y texto correctos para cada idioma.
-
-### Archivos Afectados por la Actualización
-#### Creados:
-- `lib/provider_task/locale_provider.dart`
-- `lib/screens/settings_screen.dart`
-
-#### Modificados:
-- `lib/main.dart`
-- `lib/screens/tarea_screen.dart`
-- `lib/widgets/card_tarea.dart`
-- (Archivos de localización .arb actualizados con nuevas claves)
+El objetivo de esta actualización fue enriquecer la experiencia del usuario mediante la integración de una API externa para mostrar información del clima en tiempo real. Se ha implementado la capacidad de consumir datos de la API de OpenWeatherMap, presentando de forma dinámica la temperatura y el estado del tiempo actual directamente en el encabezado de la aplicación. Esta funcionalidad añade un contexto ambiental útil para el usuario al momento de revisar sus tareas.
 
 ---
-**Última actualización: 7 de Julio, 2025**
+
+### Nuevas Funcionalidades Implementadas
+
+#### Visualización del Clima en el Encabezado (Header)
+- **Información Dinámica:** El Header de la aplicación ahora muestra la temperatura actual (°C), un ícono representativo del clima (sol, nubes, lluvia, etc.) y una breve descripción textual (ej. "Nubes dispersas").
+- **Datos Geolocalizados (Fijos):** Para esta práctica, la información del clima corresponde a una ubicación fija (Querétaro, México), establecida mediante coordenadas geográficas.
+- **Manejo de Estados de UI:** La interfaz proporciona retroalimentación visual al usuario durante todo el proceso:
+  - **Estado de Carga:** Muestra un indicador de progreso circular mientras se obtienen los datos de la API.
+  - **Estado de Éxito:** Presenta la información del clima de forma clara y elegante.
+  - **Estado de Error:** Si la petición a la API falla (por falta de conexión, etc.), se muestra un mensaje de error descriptivo.
+
+---
+
+### Detalles Técnicos de la Implementación
+
+La arquitectura de la solución se ha estructurado en tres capas principales: Capa de Servicio (para la comunicación con la API), Capa de Estado (para la gestión de los datos) y Capa de UI (para la presentación).
+
+#### 1. Configuración del Proyecto
+- **Dependencia HTTP (`pubspec.yaml`):** Se añadió el paquete oficial `http` a las dependencias. Este paquete es la herramienta que permite a la aplicación realizar peticiones HTTP (GET, POST, etc.) a servidores externos.
+- **Permiso de Internet (`AndroidManifest.xml`):** Se agregó el permiso `<uses-permission android:name="android.permission.INTERNET"/>` al manifiesto de Android. Este es un requisito indispensable del sistema operativo para permitir que la app acceda a la red.
+
+#### 2. Capa de Servicio (`weather_service.dart`)
+- **Archivo Creado:** `lib/services/weather_service.dart`
+- **Clase `WeatherData`:** Se creó una clase modelo para mapear la respuesta JSON de la API a un objeto Dart fuertemente tipado. Esto facilita el manejo de los datos y previene errores. Contiene los campos: `description`, `temperature`, `cityName`, y `iconCode`.
+- **Clase `WeatherService`:** Encapsula toda la lógica de la petición a la API. Su método `fetchWeatherByLocation` construye la URL con los parámetros necesarios (coordenadas, API Key, unidades, idioma) y ejecuta la petición `http.get()`. Gestiona la respuesta y, si es exitosa (código 200), decodifica el JSON y lo convierte en un objeto `WeatherData`.
+
+#### 3. Capa de Gestión de Estado (`weather_provider.dart`)
+- **Archivo Creado:** `lib/provider_task/weather_provider.dart`
+- **Clase `WeatherProvider`:** Utilizando el patrón `ChangeNotifier` y el paquete `provider`, esta clase actúa como el cerebro de la funcionalidad.
+  - **Manejo de Estado:** Contiene las variables que representan el estado actual: `_isLoading`, `_errorMessage` y `_weatherData`.
+  - **Orquestación:** Su método `loadWeather` es invocado por la UI. Este método actualiza el estado a "cargando", llama al `WeatherService` para obtener los datos, y actualiza el estado final con los datos del clima o con un mensaje de error.
+  - **Notificación a la UI:** Llama a `notifyListeners()` cada vez que el estado cambia, provocando que los widgets que estén "escuchando" se reconstruyan automáticamente.
+
+#### 4. Integración en la Interfaz de Usuario (UI)
+- **`main.dart`:** Se registró el `WeatherProvider` en el `MultiProvider` al inicio de la aplicación. Esto lo hace accesible desde cualquier parte del árbol de widgets, asegurando una única instancia global para gestionar el estado del clima.
+- **`lib/screens/tarea_screen.dart`:** En el método `initState` de esta pantalla, se realiza la llamada inicial a `context.read<WeatherProvider>().loadWeather(...)`. Esto dispara la carga de los datos del clima tan pronto como el usuario abre la aplicación. Se utiliza `context.read` porque solo se necesita invocar el método, sin necesidad de redibujar esta pantalla con los cambios.
+- **`lib/widgets/header.dart`:** Este es el widget que presenta la información.
+  - Utiliza `context.watch<WeatherProvider>()` para suscribirse a los cambios del provider.
+  - Implementa una lógica de renderizado condicional: si `isLoading` es true, muestra un `CircularProgressIndicator`. Si `errorMessage` no es nulo, muestra el error. Si `weatherData` tiene datos, construye y muestra la fila con el ícono, la temperatura y la descripción del clima.
+
+---
+
+### Archivos Afectados por la Actualización
+
+**Creados:**
+- `lib/services/weather_service.dart`
+- `lib/provider_task/weather_provider.dart`
+
+**Modificados:**
+- `pubspec.yaml`
+- `android/app/src/main/AndroidManifest.xml`
+- `lib/main.dart`
+- `lib/screens/tarea_screen.dart`
+- `lib/widgets/header.dart`
+
+---
+
+**Última actualización:** 22 de julio,

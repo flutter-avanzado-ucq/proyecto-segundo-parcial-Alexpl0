@@ -2,7 +2,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'dart:io' show Platform; // Import Platform
+import 'dart:io' show Platform;
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -32,7 +32,6 @@ class NotificationService {
   }
 
   static Future<void> requestPermission() async {
-    // Solo ejecutar en plataformas móviles
     if (Platform.isAndroid || Platform.isIOS) {
       // Solicitar permiso básico de notificaciones
       if (await Permission.notification.isDenied) {
@@ -47,10 +46,10 @@ class NotificationService {
       }
 
       // Solicitar permisos específicos para iOS
-      if(Platform.isIOS){
-         await _notificationsPlugin
-          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(alert: true, badge: true, sound: true);
+      if (Platform.isIOS) {
+        await _notificationsPlugin
+            .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+            ?.requestPermissions(alert: true, badge: true, sound: true);
       }
     }
   }
@@ -108,7 +107,6 @@ class NotificationService {
       tz.TZDateTime.from(scheduledDate, tz.local),
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
     );
   }

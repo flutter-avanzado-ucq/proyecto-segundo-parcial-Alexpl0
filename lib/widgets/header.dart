@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:provider/provider.dart';
 // 21 de julio: AÑADIDO - Importación del WeatherProvider.
 // Necesitamos importar el provider para poder acceder a los datos del clima que se están gestionando.
@@ -7,16 +6,12 @@ import '../provider_task/weather_provider.dart';
 // 21 de julio: AÑADIDO (Opcional pero buena práctica) - Importación del WeatherService.
 // Aunque no lo usamos directamente, importar el service nos da acceso al modelo `WeatherData`.
 import '../services/weather_service.dart';
-=======
-import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart'; //05 de julio: se agregó soporte para localización
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
 
 class Header extends StatelessWidget {
   const Header({super.key});
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     // 21 de julio: AÑADIDO - Acceso al estado del clima usando Provider.
     // Esta línea es el corazón de la integración en la UI.
     // `context.watch<WeatherProvider>()` hace dos cosas muy importantes:
@@ -30,26 +25,18 @@ class Header extends StatelessWidget {
     // Para simplificar el acceso, guardamos los datos del clima (que pueden ser nulos al principio)
     // en una variable local.
     final WeatherData? weather = weatherProvider.weatherData;
-=======
-    final localizations = AppLocalizations.of(context)!; //05 de julio: se agregó localización para textos dinámicos
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-<<<<<<< HEAD
           colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
-=======
-          colors: [Color(0xFF2196F3), Color(0xFF64B5F6)], // Cambiado a tonos azules
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
       ),
-<<<<<<< HEAD
       // 21 de julio: MODIFICADO - Se cambió el widget principal de Row a Column.
       // El diseño original usaba un Row para el avatar y el texto de saludo.
       // Se cambió a un Column para poder apilar verticalmente el saludo original
@@ -78,27 +65,6 @@ class Header extends StatelessWidget {
                   ),
                 ],
               ),
-=======
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 24,
-            backgroundImage: NetworkImage('https://i.pinimg.com/736x/63/bd/90/63bd905db1e3ea237a8c78e96ab562ab.jpg'), //05 de julio: se actualizó la imagen de avatar
-          ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                localizations.greeting, //05 de julio: se agregó texto dinámico para el saludo
-                style: const TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              Text(
-                localizations.todayTasks, //05 de julio: se agregó texto dinámico para las tareas
-                style: const TextStyle(color: Colors.white70, fontSize: 14),
-              ),
-              const SizedBox(height: 8), //05 de julio: espacio visual agregado
->>>>>>> 170cf56227f55a7b9c7a90fcddde0e7783534b7f
             ],
           ),
           const SizedBox(height: 20),
