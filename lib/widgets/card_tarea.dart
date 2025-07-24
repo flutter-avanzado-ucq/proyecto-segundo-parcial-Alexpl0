@@ -1,7 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_animaciones_notificaciones/l10n/app_localizations.dart';
+// 23 de julio: AÑADIDO - Importación del HolidayProvider.
+// Necesitamos acceder a la lista de feriados para poder compararla con la
+// fecha de vencimiento de la tarea.
+import '../provider_task/holiday_provider.dart';
 import '../widgets/edit_task_sheet.dart';
 
 class TaskCard extends StatelessWidget {
@@ -27,6 +32,36 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+
+    // 23 de julio: AÑADIDO - Lógica para verificar si la fecha de la tarea es un feriado.
+    //
+    // 1. `context.watch<HolidayProvider>().holidays`: Usamos `watch` para obtener la lista
+    //    de feriados. Esto asegura que si la lista cambia (por ejemplo, al cargar por
+    //    primera vez), el widget se reconstruirá para re-evaluar si la tarea es un feriado.
+    //    Guardamos la lista en la variable `holidays`.
+    final holidays = context.watch<HolidayProvider>().holidays;
+
+    // 2. `isHoliday`: Esta variable booleana contendrá el resultado de nuestra verificación.
+    //    La lógica es la siguiente:
+    bool isHoliday = false; // Por defecto, no es feriado.
+
+    // Primero, nos aseguramos de que tanto la fecha de vencimiento (`dueDate`) como la lista
+    // de feriados (`holidays`) no sean nulas. Si alguna de las dos falta, no podemos hacer
+    // la comparación.
+    if (dueDate != null && holidays != null) {
+      // `holidays.any((holiday) => ...)`: Este es un método muy útil de las listas en Dart.
+      // Recorre cada elemento (`holiday`) de la lista `holidays` y ejecuta la función
+      // que le pasamos. Devuelve `true` tan pronto como encuentra un elemento que cumple
+      // la condición, y `false` si ninguno la cumple.
+      isHoliday = holidays.any((holiday) {
+        // La condición compara el año, mes y día de la fecha del feriado con la fecha
+        // de vencimiento de la tarea. Si los tres coinciden, significa que la tarea
+        // vence en un día feriado, y `.any` devolverá `true`.
+        return holiday.date.year == dueDate!.year &&
+               holiday.date.month == dueDate!.month &&
+               holiday.date.day == dueDate!.day;
+      });
+    }
 
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 500),
@@ -79,17 +114,38 @@ class TaskCard extends StatelessWidget {
               if (dueDate != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
-                  child: Builder(
-                    builder: (context) {
-                      final locale = Localizations.localeOf(context).languageCode;
-                      final formattedDate = DateFormat.yMMMMd(locale).format(dueDate!);
-                      final translatedDueDate = localizations.dueDate(formattedDate);
-                      
-                      return Text(
-                        translatedDueDate,
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
-                      );
-                    },
+                  child: Wrap( // Usamos Wrap para que los elementos se ajusten si no caben
+                    spacing: 8.0, // Espacio horizontal entre la fecha y la etiqueta de feriado
+                    runSpacing: 4.0, // Espacio vertical si se van a una nueva línea
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Builder(
+                        builder: (context) {
+                          final locale = Localizations.localeOf(context).languageCode;
+                          final formattedDate = DateFormat.yMMMMd(locale).format(dueDate!);
+                          final translatedDueDate = localizations.dueDate(formattedDate);
+                          
+                          return Text(
+                            translatedDueDate,
+                            style: const TextStyle(fontSize: 12, color: Colors.grey),
+                          );
+                        },
+                      ),
+                      // 23 de julio: AÑADIDO - Etiqueta de feriado condicional.
+                      // Al igual que en el Header, usamos un `if` en la lista de widgets.
+                      // Si nuestra variable `isHoliday` es `true`, se añadirá este widget
+                      // `Text` a la `Wrap`, mostrando la etiqueta "Feriado".
+                      // Si es `false`, simplemente no se añade nada.
+                      if (isHoliday)
+                        Text(
+                          '(${localizations.holidayTag})', // Usamos la clave de traducción
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
             ],

@@ -48,12 +48,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveChanges => 'Save changes';
 
   @override
-  String get greeting => 'Hi, Alex 👋';
-
-  @override
-  String get todayTasks => 'These are your tasks for today';
-
-  @override
   String get name => 'name';
 
   @override
@@ -127,4 +121,39 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get todayIsHoliday => 'Today is a holiday';
+
+  @override
+  String get holidayTag => 'Holiday';
+
+  @override
+  String greeting(String userName) {
+    return 'Hi, $userName 👋';
+  }
+
+  @override
+  String get todayTasksHeader => 'These are your tasks for today';
+
+  @override
+  String get weatherError => 'Could not load weather data';
+
+  @override
+  String get weatherLoading => 'Loading weather...';
+
+  @override
+  String get holidayError => 'Could not load holiday data';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get spanish => 'Spanish';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get systemLanguage => 'Use system language';
 }

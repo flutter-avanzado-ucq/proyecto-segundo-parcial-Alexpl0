@@ -1,66 +1,73 @@
-# Tareas Pro - Informe de Actualización
+Tareas Pro - Informe de Actualización  
+Informe de Actualización del Proyecto - 23 de julio de 2025
 
-## Informe de Actualización del Proyecto - 22 de julio de 2025
+Resumen General de la Actualización  
+Esta actualización mayor enriquece significativamente la aplicación "Tareas Pro" con dos nuevas funcionalidades clave: la integración de un servicio de feriados nacionales y la internacionalización completa de la interfaz de usuario. Ahora, la aplicación no solo informa al usuario si una tarea vence en un día feriado, sino que también adapta todo su contenido textual (incluyendo la información del clima) al idioma seleccionado por el usuario (español o inglés), ofreciendo una experiencia mucho más contextual y profesional.
 
-### Resumen General de la Actualización
-El objetivo de esta actualización fue enriquecer la experiencia del usuario mediante la integración de una API externa para mostrar información del clima en tiempo real. Se ha implementado la capacidad de consumir datos de la API de OpenWeatherMap, presentando de forma dinámica la temperatura y el estado del tiempo actual directamente en el encabezado de la aplicación. Esta funcionalidad añade un contexto ambiental útil para el usuario al momento de revisar sus tareas.
+Nuevas Funcionalidades Implementadas  
+1. Integración de Servicio de Feriados  
+Consulta a API Externa: La aplicación se conecta a la API de Nager.Date para obtener la lista actualizada de feriados oficiales para México para el año en curso.
 
----
+Indicador de Feriado en el Header: Si el día actual es un feriado, se muestra un aviso destacado en el encabezado principal (ej. "Hoy es feriado: Día de la Independencia").
 
-### Nuevas Funcionalidades Implementadas
+Etiqueta en Tarjetas de Tarea: Cada tarea en la lista ahora verifica si su fecha de vencimiento coincide con un día feriado y, de ser así, muestra una etiqueta distintiva (ej. "(Feriado)") junto a la fecha.
 
-#### Visualización del Clima en el Encabezado (Header)
-- **Información Dinámica:** El Header de la aplicación ahora muestra la temperatura actual (°C), un ícono representativo del clima (sol, nubes, lluvia, etc.) y una breve descripción textual (ej. "Nubes dispersas").
-- **Datos Geolocalizados (Fijos):** Para esta práctica, la información del clima corresponde a una ubicación fija (Querétaro, México), establecida mediante coordenadas geográficas.
-- **Manejo de Estados de UI:** La interfaz proporciona retroalimentación visual al usuario durante todo el proceso:
-  - **Estado de Carga:** Muestra un indicador de progreso circular mientras se obtienen los datos de la API.
-  - **Estado de Éxito:** Presenta la información del clima de forma clara y elegante.
-  - **Estado de Error:** Si la petición a la API falla (por falta de conexión, etc.), se muestra un mensaje de error descriptivo.
+Arquitectura Limpia: La lógica se ha separado en una capa de servicio (HolidayService) para la llamada a la API y una capa de estado (HolidayProvider) para gestionar los datos y comunicarlos a la UI, siguiendo las mejores prácticas.
 
----
+2. Internacionalización (i18n) Completa  
+Soporte Multilenguaje: Toda la aplicación ahora es bilingüe, soportando Español e Inglés.
 
-### Detalles Técnicos de la Implementación
+Traducción de Componentes: Se han traducido todos los textos estáticos y dinámicos de la interfaz, incluyendo botones, títulos, etiquetas, diálogos y mensajes de notificación.
 
-La arquitectura de la solución se ha estructurado en tres capas principales: Capa de Servicio (para la comunicación con la API), Capa de Estado (para la gestión de los datos) y Capa de UI (para la presentación).
+Clima Multilenguaje: La llamada a la API de OpenWeatherMap se ha modificado para solicitar la descripción del clima (ej. "cielo claro" vs "clear sky") en el idioma que el usuario tenga seleccionado en la aplicación.
 
-#### 1. Configuración del Proyecto
-- **Dependencia HTTP (`pubspec.yaml`):** Se añadió el paquete oficial `http` a las dependencias. Este paquete es la herramienta que permite a la aplicación realizar peticiones HTTP (GET, POST, etc.) a servidores externos.
-- **Permiso de Internet (`AndroidManifest.xml`):** Se agregó el permiso `<uses-permission android:name="android.permission.INTERNET"/>` al manifiesto de Android. Este es un requisito indispensable del sistema operativo para permitir que la app acceda a la red.
+Pantalla de Configuración de Idioma: Se ha añadido una nueva pantalla de ajustes (SettingsScreen) accesible desde la pantalla principal, donde el usuario puede seleccionar manualmente entre "Español", "Inglés" o "Usar idioma del sistema". La selección se guarda y persiste entre sesiones.
 
-#### 2. Capa de Servicio (`weather_service.dart`)
-- **Archivo Creado:** `lib/services/weather_service.dart`
-- **Clase `WeatherData`:** Se creó una clase modelo para mapear la respuesta JSON de la API a un objeto Dart fuertemente tipado. Esto facilita el manejo de los datos y previene errores. Contiene los campos: `description`, `temperature`, `cityName`, y `iconCode`.
-- **Clase `WeatherService`:** Encapsula toda la lógica de la petición a la API. Su método `fetchWeatherByLocation` construye la URL con los parámetros necesarios (coordenadas, API Key, unidades, idioma) y ejecuta la petición `http.get()`. Gestiona la respuesta y, si es exitosa (código 200), decodifica el JSON y lo convierte en un objeto `WeatherData`.
+3. Mejoras en la Gestión de Estado  
+Manejo de Errores en UI: Se ha refactorizado la gestión de errores de los WeatherProvider y HolidayProvider. Ahora, los providers solo notifican un estado de error booleano, y es la UI la responsable de mostrar el mensaje de error traducido correspondiente, desacoplando la lógica de la presentación.
 
-#### 3. Capa de Gestión de Estado (`weather_provider.dart`)
-- **Archivo Creado:** `lib/provider_task/weather_provider.dart`
-- **Clase `WeatherProvider`:** Utilizando el patrón `ChangeNotifier` y el paquete `provider`, esta clase actúa como el cerebro de la funcionalidad.
-  - **Manejo de Estado:** Contiene las variables que representan el estado actual: `_isLoading`, `_errorMessage` y `_weatherData`.
-  - **Orquestación:** Su método `loadWeather` es invocado por la UI. Este método actualiza el estado a "cargando", llama al `WeatherService` para obtener los datos, y actualiza el estado final con los datos del clima o con un mensaje de error.
-  - **Notificación a la UI:** Llama a `notifyListeners()` cada vez que el estado cambia, provocando que los widgets que estén "escuchando" se reconstruyan automáticamente.
+Detalles Técnicos de la Implementación  
+La implementación sigue una arquitectura por capas para mantener el código organizado, escalable y fácil de mantener.
 
-#### 4. Integración en la Interfaz de Usuario (UI)
-- **`main.dart`:** Se registró el `WeatherProvider` en el `MultiProvider` al inicio de la aplicación. Esto lo hace accesible desde cualquier parte del árbol de widgets, asegurando una única instancia global para gestionar el estado del clima.
-- **`lib/screens/tarea_screen.dart`:** En el método `initState` de esta pantalla, se realiza la llamada inicial a `context.read<WeatherProvider>().loadWeather(...)`. Esto dispara la carga de los datos del clima tan pronto como el usuario abre la aplicación. Se utiliza `context.read` porque solo se necesita invocar el método, sin necesidad de redibujar esta pantalla con los cambios.
-- **`lib/widgets/header.dart`:** Este es el widget que presenta la información.
-  - Utiliza `context.watch<WeatherProvider>()` para suscribirse a los cambios del provider.
-  - Implementa una lógica de renderizado condicional: si `isLoading` es true, muestra un `CircularProgressIndicator`. Si `errorMessage` no es nulo, muestra el error. Si `weatherData` tiene datos, construye y muestra la fila con el ícono, la temperatura y la descripción del clima.
+Capa de Servicios (services/):
 
----
+- weather_service.dart: Modificado para aceptar un parámetro de idioma (lang) en su método fetchWeatherByLocation, que se añade a la petición a la API de OpenWeatherMap.
+- holiday_service.dart (Nuevo): Encapsula la lógica para llamar a la API de Nager.Date y parsear la respuesta JSON a una lista de objetos Holiday.
 
-### Archivos Afectados por la Actualización
+Capa de Gestión de Estado (provider_task/):
 
-**Creados:**
-- `lib/services/weather_service.dart`
-- `lib/provider_task/weather_provider.dart`
+- weather_provider.dart: Actualizado para pasar el idioma al WeatherService y para manejar el estado de error con un booleano.
+- holiday_provider.dart (Nuevo): Gestiona el estado de la lista de feriados (cargando, error, datos) y notifica a la UI de los cambios.
+- locale_provider.dart: Gestiona el idioma seleccionado por el usuario y lo persiste en SharedPreferences.
 
-**Modificados:**
-- `pubspec.yaml`
-- `android/app/src/main/AndroidManifest.xml`
-- `lib/main.dart`
-- `lib/screens/tarea_screen.dart`
-- `lib/widgets/header.dart`
+Capa de UI (widgets/ y screens/):
 
----
+- main.dart: Se registró el HolidayProvider en el MultiProvider para su acceso global.
+- tarea_screen.dart: Modificado para iniciar la carga de datos de feriados y para obtener el idioma actual y pasárselo al WeatherProvider. Se añadió un botón para navegar a la pantalla de ajustes.
+- header.dart: Ahora consume datos tanto del WeatherProvider como del HolidayProvider. Utiliza AppLocalizations para mostrar todos sus textos (saludo, estado del clima, aviso de feriado) en el idioma correcto.
+- card_tarea.dart: Utiliza el HolidayProvider para comprobar si la fecha de la tarea es un feriado y muestra una etiqueta traducida si corresponde.
+- settings_screen.dart (Nuevo): Permite al usuario cambiar y persistir el idioma de la aplicación.
 
-**Última actualización:** 22 de julio,
+Archivos de Localización (l10n/): Se actualizaron los archivos app_en.arb y app_es.arb con todas las claves de texto necesarias para la internacionalización completa. Los archivos .dart correspondientes fueron regenerados.
+
+Archivos Afectados por la Actualización  
+Creados:
+
+- lib/services/holiday_service.dart
+- lib/provider_task/holiday_provider.dart
+- lib/screens/settings_screen.dart
+
+Modificados:
+
+- pubspec.yaml
+- android/app/src/main/AndroidManifest.xml
+- lib/main.dart
+- lib/services/weather_service.dart
+- lib/provider_task/weather_provider.dart
+- lib/screens/tarea_screen.dart
+- lib/widgets/header.dart
+- lib/widgets/card_tarea.dart
+- lib/l10n/app_en.arb
+- lib/l10n/app_es.arb
+
+Última actualización:

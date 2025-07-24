@@ -8,6 +8,11 @@ import 'provider_task/task_provider.dart';
 import 'provider_task/theme_provider.dart';
 // Importación del WeatherProvider.
 import 'provider_task/weather_provider.dart';
+// 23 de julio: AÑADIDO - Importación del HolidayProvider.
+// De la misma manera que registramos los otros providers, necesitamos importar
+// el nuevo HolidayProvider para poder añadirlo al MultiProvider y que sea
+// accesible desde cualquier parte de nuestra aplicación.
+import 'provider_task/holiday_provider.dart';
 import 'models/task_model.dart';
 import 'services/notification_service.dart';
 
@@ -33,29 +38,25 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => TaskProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-
-        // 21 de julio: AÑADIDO - Registro del WeatherProvider en el árbol de widgets.
-        // Aquí se está utilizando un `MultiProvider` para poder registrar varios providers
-        // a la vez en el nivel más alto de la aplicación.
-        // Al añadir `ChangeNotifierProvider(create: (_) => WeatherProvider())`, estamos creando
-        // una instancia de nuestro `WeatherProvider` y poniéndola a disposición de CUALQUIER
-        // widget que se encuentre por debajo en el árbol de widgets (básicamente, toda la app).
-        //
-        // ¿Por qué es crucial esto?
-        // 1. **Acceso Global:** Permite que widgets como `TaskScreen` o `Header` puedan "pedir"
-        //    esta instancia del `WeatherProvider` para acceder a los datos del clima o para
-        //    llamar a sus métodos (como `loadWeather`).
-        // 2. **Gestión de Estado Centralizada:** El estado del clima (si está cargando, si hay un error,
-        //    o los datos mismos) vive en un único lugar, el `WeatherProvider`. Esto evita tener
-        //    lógica de negocio esparcida por múltiples widgets y simplifica el mantenimiento.
-        // 3. **Eficiencia:** Provider es inteligente. Solo reconstruirá los widgets que están
-        //    "escuchando" activamente los cambios en `WeatherProvider`, mejorando el rendimiento
-        //    de la aplicación.
-        //
-        // La función `create: (_) => WeatherProvider()` es la que efectivamente instancia la clase.
-        // El `_` es una convención para indicar que no nos interesa el `BuildContext` que `create` nos ofrece.
         ChangeNotifierProvider(create: (_) => WeatherProvider()),
-
+        // 23 de julio: AÑADIDO - Registro del HolidayProvider.
+        // Siguiendo el patrón de la práctica anterior, añadimos el HolidayProvider a nuestra
+        // lista de providers globales.
+        //
+        // ¿Qué hace esta línea?
+        // 1. `ChangeNotifierProvider`: Es un widget de la librería `provider` que crea y
+        //    provee una instancia de un `ChangeNotifier` a sus descendientes.
+        // 2. `create: (_) => HolidayProvider()`: Esta es la función factory que se encarga
+        //    de construir la instancia de nuestro `HolidayProvider`. Se ejecutará de forma
+        //    "lazy" (perezosa), es decir, la primera vez que un widget intente acceder a él.
+        //
+        // ¿Por qué aquí?
+        // Al colocarlo en el `MultiProvider` al inicio de la aplicación (en `main.dart`),
+        // nos aseguramos de que una ÚNICA instancia de `HolidayProvider` esté disponible
+        // para cualquier widget en el árbol, como `TaskScreen`, `Header` o `TaskCard`.
+        // Esto centraliza el estado de los feriados y la lógica para obtenerlos, manteniendo
+        // nuestro código limpio, organizado y eficiente.
+        ChangeNotifierProvider(create: (_) => HolidayProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: const MyApp(),

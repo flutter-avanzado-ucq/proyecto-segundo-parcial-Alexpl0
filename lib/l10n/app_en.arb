@@ -13,8 +13,6 @@
     "hourLabel": "Time:",
     "titleLabel": "Title",
     "saveChanges": "Save changes",
-    "greeting": "Hi, Alex 👋",
-    "todayTasks": "These are your tasks for today",
     "name": "name",
     "changeDate": "Change date",
     "changeTime": "Change time",
@@ -29,12 +27,10 @@
     "notificationNewTaskBody": "You have added the task: {taskName}",
     "notificationReminderTaskTitle": "Task Reminder",
     "notificationReminderTaskBody": "Don't forget: {taskName}",
-
     "language": "Language",
     "@language": {
         "description": "Text for the language change option"
     },
-
     "dueDate": "Due on {date}",
     "@dueDate": {
         "description": "Shows the due date of the task, using a formatted date as a placeholder.",
@@ -45,7 +41,6 @@
             }
         }
     },
-
     "pendingTasks": "{count, plural, =0{You have no pending tasks} =1{You have 1 pending task} other{You have {count} pending tasks}}",
     "@pendingTasks": {
         "description": "A message showing how many tasks are pending, with pluralization support.",
@@ -55,5 +50,25 @@
                 "format": "compact"
             }
         }
-    }
+    },
+    "todayIsHoliday": "Today is a holiday",
+    "holidayTag": "Holiday",
+    "greeting": "Hi, {userName} 👋",
+    "@greeting": {
+        "description": "A greeting message that includes the user's name.",
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Alex"
+            }
+        }
+    },
+    "todayTasksHeader": "These are your tasks for today",
+    "weatherError": "Could not load weather data",
+    "weatherLoading": "Loading weather...",
+    "holidayError": "Could not load holiday data",
+    "settingsTitle": "Settings",
+    "spanish": "Spanish",
+    "english": "English",
+    "systemLanguage": "Use system language"
 }

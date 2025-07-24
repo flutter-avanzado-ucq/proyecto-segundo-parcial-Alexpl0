@@ -13,8 +13,6 @@
     "hourLabel": "Hora:",
     "titleLabel": "Título",
     "saveChanges": "Guardar cambios",
-    "greeting": "Hola, Alex 👋",
-    "todayTasks": "Estas son tus tareas para hoy",
     "name": "nombre",
     "changeDate": "Cambiar fecha",
     "changeTime": "Cambiar hora",
@@ -29,12 +27,10 @@
     "notificationNewTaskBody": "Has agregado la tarea: {taskName}",
     "notificationReminderTaskTitle": "Recordatorio de tarea",
     "notificationReminderTaskBody": "No olvides: {taskName}",
-
     "language": "Idioma",
     "@language": {
         "description": "Texto para la opción de cambiar idioma"
     },
-
     "dueDate": "Vence el {date}",
     "@dueDate": {
         "description": "Muestra la fecha de vencimiento de la tarea, usando una fecha formateada como placeholder.",
@@ -45,7 +41,6 @@
             }
         }
     },
-
     "pendingTasks": "{count, plural, =0{No tienes tareas pendientes} =1{Tienes 1 tarea pendiente} other{Tienes {count} tareas pendientes}}",
     "@pendingTasks": {
         "description": "Un mensaje que muestra cuántas tareas quedan pendientes, con soporte para pluralización.",
@@ -55,5 +50,25 @@
                 "format": "compact"
             }
         }
-    }
+    },
+    "todayIsHoliday": "Hoy es feriado",
+    "holidayTag": "Feriado",
+    "greeting": "Hola, {userName} 👋",
+    "@greeting": {
+        "description": "Un mensaje de saludo que incluye el nombre del usuario.",
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Alex"
+            }
+        }
+    },
+    "todayTasksHeader": "Estas son tus tareas para hoy",
+    "weatherError": "No se pudo cargar la información del clima",
+    "weatherLoading": "Cargando clima...",
+    "holidayError": "No se pudieron cargar los feriados",
+    "settingsTitle": "Configuración",
+    "spanish": "Español",
+    "english": "Inglés",
+    "systemLanguage": "Usar idioma del sistema"
 }

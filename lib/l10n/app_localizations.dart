@@ -176,18 +176,6 @@ abstract class AppLocalizations {
   /// **'Save changes'**
   String get saveChanges;
 
-  /// No description provided for @greeting.
-  ///
-  /// In en, this message translates to:
-  /// **'Hi, Alex 👋'**
-  String get greeting;
-
-  /// No description provided for @todayTasks.
-  ///
-  /// In en, this message translates to:
-  /// **'These are your tasks for today'**
-  String get todayTasks;
-
   /// No description provided for @name.
   ///
   /// In en, this message translates to:
@@ -289,6 +277,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{You have no pending tasks} =1{You have 1 pending task} other{You have {count} pending tasks}}'**
   String pendingTasks(int count);
+
+  /// No description provided for @todayIsHoliday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today is a holiday'**
+  String get todayIsHoliday;
+
+  /// No description provided for @holidayTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Holiday'**
+  String get holidayTag;
+
+  /// A greeting message that includes the user's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, {userName} 👋'**
+  String greeting(String userName);
+
+  /// No description provided for @todayTasksHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'These are your tasks for today'**
+  String get todayTasksHeader;
+
+  /// No description provided for @weatherError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load weather data'**
+  String get weatherError;
+
+  /// No description provided for @weatherLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading weather...'**
+  String get weatherLoading;
+
+  /// No description provided for @holidayError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load holiday data'**
+  String get holidayError;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get spanish;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @systemLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Use system language'**
+  String get systemLanguage;
 }
 
 class _AppLocalizationsDelegate

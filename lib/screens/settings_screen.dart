@@ -8,16 +8,22 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 23 de julio: OBTENCIÓN DE PROVIDER Y LOCALIZACIONES
+    // Obtenemos las instancias necesarias.
     final localeProvider = Provider.of<LocaleProvider>(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.language),
+        // 23 de julio: TRADUCCIÓN AÑADIDA
+        // Usamos la clave `language` para el título del AppBar.
+        title: Text(localizations.language),
       ),
       body: ListView(
         children: [
           ListTile(
-            title: const Text('Español'),
+            // 23 de julio: TRADUCCIÓN AÑADIDA
+            title: Text(localizations.spanish),
             trailing: localeProvider.locale?.languageCode == 'es'
                 ? const Icon(Icons.check, color: Colors.green)
                 : null,
@@ -27,7 +33,8 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('English'),
+            // 23 de julio: TRADUCCIÓN AÑADIDA
+            title: Text(localizations.english),
             trailing: localeProvider.locale?.languageCode == 'en'
                 ? const Icon(Icons.check, color: Colors.green)
                 : null,
@@ -37,7 +44,8 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('Usar idioma del sistema'),
+            // 23 de julio: TRADUCCIÓN AÑADIDA
+            title: Text(localizations.systemLanguage),
             trailing: localeProvider.locale == null
                 ? const Icon(Icons.check, color: Colors.green)
                 : null,

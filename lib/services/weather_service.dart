@@ -26,11 +26,16 @@ class WeatherData {
 }
 
 class WeatherService {
-  static const String _apiKey = '6ec6f140f1ecb199dca483203cae9530'; 
+  // Se mantiene tu API Key original.
+  static const String _apiKey = '6ec6f140f1ecb199dca483203cae9530';
   static const String _baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
-  Future<WeatherData> fetchWeatherByLocation(double lat, double lon) async {
-    final url = Uri.parse('$_baseUrl?lat=$lat&lon=$lon&units=metric&lang=es&appid=$_apiKey');
+  // 23 de julio: MODIFICADO - El método ahora acepta el idioma dinámicamente.
+  // Se añade el parámetro `lang` para que la llamada a la API sea flexible.
+  Future<WeatherData> fetchWeatherByLocation(double lat, double lon, String lang) async {
+    // La URL ahora construye el parámetro 'lang' con el valor que recibe la función,
+    // en lugar de tenerlo fijo como 'es'.
+    final url = Uri.parse('$_baseUrl?lat=$lat&lon=$lon&units=metric&lang=$lang&appid=$_apiKey');
 
     final response = await http.get(url);
 
@@ -38,6 +43,7 @@ class WeatherService {
       final json = jsonDecode(response.body);
       return WeatherData.fromJson(json);
     } else {
+      // Se mantiene el lanzamiento de una excepción en caso de error.
       throw Exception('Error al obtener el clima');
     }
   }

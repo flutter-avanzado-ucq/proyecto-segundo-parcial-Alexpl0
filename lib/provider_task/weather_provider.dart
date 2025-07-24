@@ -1,4 +1,3 @@
-// providers/weather_provider.dart
 import 'package:flutter/material.dart';
 import '../services/weather_service.dart';
 
@@ -6,22 +5,29 @@ class WeatherProvider extends ChangeNotifier {
   final WeatherService _weatherService = WeatherService();
   WeatherData? _weatherData;
   bool _isLoading = false;
-  String? _errorMessage;
+  bool _hasError = false;
 
   WeatherData? get weatherData => _weatherData;
   bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
+  bool get hasError => _hasError;
 
-  Future<void> loadWeather(double lat, double lon) async {
+  // 23 de julio: CORREGIDO - La firma del método ahora usa parámetros nombrados.
+  // Esto coincide con la forma en que se llama desde `tarea_screen.dart` y resuelve el error.
+  Future<void> loadWeather({
+    required double lat,
+    required double lon,
+    required String lang,
+  }) async {
     _isLoading = true;
-    _errorMessage = null;
+    _hasError = false;
     notifyListeners();
 
     try {
-      final data = await _weatherService.fetchWeatherByLocation(lat, lon);
+      // Pasamos los parámetros al servicio.
+      final data = await _weatherService.fetchWeatherByLocation(lat, lon, lang);
       _weatherData = data;
     } catch (e) {
-      _errorMessage = 'No se pudo obtener el clima';
+      _hasError = true;
     }
 
     _isLoading = false;
